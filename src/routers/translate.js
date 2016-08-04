@@ -15,7 +15,7 @@ var TranslateRecord = AV.Object.extend('TranslateRecord');
 
 router.post('/addTranslateRecord', function (req, res, next) {
     var word = req.body.word;
-    var translate = req.params.translate;
+    var translate = req.body.translate;
     console.log("addTranslateRecord->word" + word + "<>translate:" + translate);
     if (!word || !translate) {
         res.send({code: 0, info: 'params error!!'});
