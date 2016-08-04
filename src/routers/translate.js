@@ -16,14 +16,14 @@ var TranslateRecord = AV.Object.extend('TranslateRecord');
 router.post('/addTranslateRecord', function (req, res, next) {
     var word = req.body.word;
     var translate = req.body.translate;
-    console.log("addTranslateRecord->word" + word + "<>translate:" + translate);
+    console.log("addTranslateRecord->word:" + word + "<>translate:" + translate);
     if (!word || !translate) {
         res.send({code: 0, info: 'params error!!'});
         return;
     }
     var translateRecord = new TranslateRecord();
-    translateRecord.set('word', word);
-    translateRecord.set('translate', translate);
+    translateRecord.set('word', word.toString());
+    translateRecord.set('translate', translate.toString());
     translateRecord.save().then(function (translateRecord) {
         res.send({code: 1, info: translateRecord});
     }, function (error) {
