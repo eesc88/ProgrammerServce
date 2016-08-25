@@ -9,6 +9,10 @@
 
 var router = require('express').Router();
 var AV = require('leanengine');
+var http = require('http');
+var Utils = require('../utils/Utils');
+var request = require('request');
+
 
 var TranslateRecord = AV.Object.extend('TranslateRecord');
 
@@ -40,6 +44,35 @@ router.get('/TranslateRecord', function (req, res, next) {
     }, function (error) {
         console.log("error->" + error);
         res.send({code: 0, info: error});
+    });
+});
+
+
+router.get('/doTranslate', function (req, res, next) {
+    var translateContent = req.query.content;
+    console.log("doTranslate start...");
+    console.log("translateContent-->" + translateContent);
+    var url = Utils.YOUDAO_URL + translateContent;
+
+    var options = {
+        method: 'GET',
+        url: url,
+        headers: {
+            'User-Agent': 'request',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var result = JSON.parse(body);
+            console.log(result);
+            console.log(result.translation);
+            res.send({code: 1, info: result});
+        } else {
+            res.send({code: 0, info: error});
+        }
     });
 });
 
