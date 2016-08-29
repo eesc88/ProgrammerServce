@@ -70,7 +70,7 @@ router.get('/doTranslate', function (req, res, next) {
     request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var result = JSON.parse(body);
-            console.log(result);
+            //console.log(result);
             //console.log();
             saveTranslate(result.translation[0]);
             res.send({code: 1, info: result});
