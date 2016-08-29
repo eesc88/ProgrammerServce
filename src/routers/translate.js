@@ -55,12 +55,7 @@ router.get('/TranslateRecord', function (req, res, next) {
  */
 router.get('/doTranslate', function (req, res, next) {
     var translateContent = req.query.content;
-    //console.log("doTranslate start...");
-    //console.log("translateContent-->" + translateContent);
     var url = Utils.YOUDAO_URL + urlencode(translateContent);
-
-    //var url = Utils.YOUDAO_URL + iconv.decode(translateContent,'utf-8');
-    //console.log("url-->" + url);
 
     var options = {
         method: 'GET',
@@ -85,6 +80,10 @@ router.get('/doTranslate', function (req, res, next) {
     });
 
 
+    /**
+     * 保存翻译记录
+     * @param translate
+     */
     function saveTranslate(translate) {
         var translateRecord = new TranslateRecord();
         translateRecord.set('word', translateContent);
