@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>云翻译</title>
+    <link href="/favicon.ico" rel="shortcut icon">
     <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
     <link rel="stylesheet" href="//apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.min.css">
 </head>
@@ -25,7 +26,7 @@
                             <a href="#">Link</a>
                         </li>
                         <li>
-                            <a href="#">Link</a>
+                            <a href="https://github.com/eesc88">Follow Me</a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong
@@ -61,7 +62,7 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#">Link</a>
+                            <a href="https://github.com/eesc88">Follow Me</a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong
@@ -86,40 +87,56 @@
                     </ul>
                 </div>
             </nav>
-            <div class="jumbotron">
-                <span id="transmark"></span>
-                <h1>
-                    Hello, world!
-                </h1>
-                <p>
-                    This is a template for a simple marketing or informational website. It includes a large callout
-                    called the hero unit and three supporting pieces of content. Use it as a starting point to create
-                    something more unique.
-                </p>
-                <p>
-                    <a class="btn btn-primary btn-large" href="#">Learn more</a>
-                </p>
+
+            <div class="row clearfix">
+                <div class="col-md-5 column">
+                    <h3>
+                        翻译内容:
+                    </h3>
+                    <textarea class="form-control" ng-model="translationContent"
+                              style="height: 300px;resize: none;"></textarea>
+                </div>
+                <div class="col-md-2 column">
+                    <p class="text-nowrap" style="height: 280px"></p>
+                    <button ng-click="doTranslation()" type="button" class="btn btn-primary btn-lg">翻译
+                    </button>
+                </div>
+                <div class="col-md-5 column">
+                    <h3>
+                        翻译结果：
+                    </h3>
+                    <div style="border-color: #d1d1d1; border: 1px solid ;height: 300px;padding: 8px;">
+                        <p> {{ translationResult }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row clearfix">
-        <div class="col-md-5 column">
-            <h2>
-                翻译内容:
-            </h2>
-            <textarea class="form-control" ng-model="translationContent" style="height: 300px;resize: none;"></textarea>
-        </div>
-        <div class="col-md-2 column">
-            <p>
-                <button ng-click="doTranslation()" type="button" class="btn btn-primary btn-lg">翻译</button>
-            </p>
-        </div>
-        <div class="col-md-5 column">
-            <h2>
-                翻译结果：
-            </h2>
-            <div style="border-color: #d1d1d1; border: 1px solid ;height: 300px;padding: 8px;">
-                <p> {{ translationResult }}</p>
+
+    <div class="jumbotron" style="margin-top: 20px">
+        <span id="transmark"></span>
+        <div class="row clearfix">
+            <div class="col-md-8 column">
+                <h2>
+                    "云翻译"开源项目欢迎您的加入!!!
+                </h2>
+                <p>
+                    试图打造一个码农专用的开源翻译工具<br>
+                    期待有志同道合的人一起实现这个想法<br>
+                    应用移动端采用的React-Native技术完成(IOS平台兼容待完善)<br>
+                    服务端使用的是LeanCloud提供的服务<br>
+                    云引擎采用Node.js实现<br>
+                </p>
+            </div>
+
+            <div class="col-md-3 column">
+                <p>
+                <h4>交流合作</h4>
+                <li><a href="#"> Email:suce998@gmail.com</a></li>
+                <li><a href="https://github.com/eesc88/programmer"> App Code</a></li>
+                <li><a href="https://github.com/eesc88/ProgrammerServce"> Node.JS Servce Code</a></li>
+                <li><a href="#"> QQ:542260236</a></li>
+                </p>
             </div>
         </div>
     </div>
@@ -130,7 +147,7 @@
     var app = angular.module('translation', []);
     app.controller('personCtrl', function ($scope, $http) {
         $scope.translationContent = "",
-                $scope.translationResult = "Doe"
+                $scope.translationResult = ""
 
         $scope.doTranslation = function () {
             var content = $scope.translationContent;
@@ -138,7 +155,7 @@
             $http.get(url)
                     .success(function (response) {
                         if (response.code == 1) {
-                            $scope.translationResult = response.info.translation;
+                            $scope.translationResult = response.info.translation[0];
                         } else {
                             $scope.translationResult = response.info;
                         }

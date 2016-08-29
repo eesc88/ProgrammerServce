@@ -12,7 +12,8 @@ var AV = require('leanengine');
 var http = require('http');
 var Utils = require('../utils/Utils');
 var request = require('request');
-
+var iconv = require('iconv-lite');
+var urlencode = require('urlencode2');
 
 var TranslateRecord = AV.Object.extend('TranslateRecord');
 
@@ -50,9 +51,12 @@ router.get('/TranslateRecord', function (req, res, next) {
 
 router.get('/doTranslate', function (req, res, next) {
     var translateContent = req.query.content;
-    console.log("doTranslate start...");
-    console.log("translateContent-->" + translateContent);
-    var url = Utils.YOUDAO_URL + translateContent;
+    //console.log("doTranslate start...");
+    //console.log("translateContent-->" + translateContent);
+    var url = Utils.YOUDAO_URL + urlencode(translateContent);
+
+    //var url = Utils.YOUDAO_URL + iconv.decode(translateContent,'utf-8');
+    //console.log("url-->" + url);
 
     var options = {
         method: 'GET',
@@ -68,12 +72,21 @@ router.get('/doTranslate', function (req, res, next) {
         if (!error && response.statusCode == 200) {
             var result = JSON.parse(body);
             console.log(result);
-            console.log(result.translation);
+            //console.log();
+            saveTranslate(result.translation[0]);
             res.send({code: 1, info: result});
         } else {
             res.send({code: 0, info: error});
         }
     });
+
+
+    function saveTranslate(translate) {
+        var translateRecord = new TranslateRecord();
+        translateRecord.set('word', translateContent);
+        translateRecord.set('translate', translate);
+        translateRecord.save()
+    }
 });
 
 
