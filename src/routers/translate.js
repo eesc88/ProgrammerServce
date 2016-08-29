@@ -9,15 +9,15 @@
 
 var router = require('express').Router();
 var AV = require('leanengine');
-var http = require('http');
 var Utils = require('../utils/Utils');
 var request = require('request');
-var iconv = require('iconv-lite');
 var urlencode = require('urlencode2');
 
 var TranslateRecord = AV.Object.extend('TranslateRecord');
 
-
+/**
+ * 手机端翻译记录添加接口
+ */
 router.post('/addTranslateRecord', function (req, res, next) {
     var word = req.body.word;
     var translate = req.body.translate;
@@ -37,7 +37,9 @@ router.post('/addTranslateRecord', function (req, res, next) {
     });
 });
 
-
+/**
+ * 网页首页翻译界面
+ */
 router.get('/TranslateRecord', function (req, res, next) {
     var query = new AV.Query(TranslateRecord);
     query.find().then(function (translateRecord) {
@@ -48,7 +50,9 @@ router.get('/TranslateRecord', function (req, res, next) {
     });
 });
 
-
+/**
+ * 执行翻译接口
+ */
 router.get('/doTranslate', function (req, res, next) {
     var translateContent = req.query.content;
     //console.log("doTranslate start...");
